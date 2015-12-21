@@ -37,7 +37,7 @@ namespace SpeedyChef
 
 			// Create your application here
 			// Text Input Boxes
-			/*var editTextUsername = FindViewById<EditText> (Resource.Id.editText1);
+			var editTextUsername = FindViewById<EditText> (Resource.Id.editText1);
 			var textViewUsername = FindViewById<EditText> (Resource.Id.editText2);
 
 			String enteredUsername = editTextUsername.ToString ();
@@ -69,12 +69,25 @@ namespace SpeedyChef
 			};
 
 			this.createAccount_button.Click += (s, arg) => {
-				var intent = new Intent (this, typeof(MainActivity));
-				CachedData.Instance.CurrHighLevelType = typeof(MainActivity);
+				var intent = new Intent (this, typeof(CreateanAccountActivity));
+				CachedData.Instance.CurrHighLevelType = typeof(CreateanAccountActivity);
 				CachedData.Instance.PreviousActivity = this;
 				StartActivity (intent);
-			};	
-			//filter_button.Click += (s, arg) => { */
+			};
+
+			Button menu_button = FindViewById<Button> (Resource.Id.menu_button);
+			menu_button.Click += (s, arg) => {
+				menu_button.SetBackgroundResource(Resource.Drawable.pressed_lines);
+				PopupMenu menu = new PopupMenu (this, menu_button);
+				menu.Inflate (Resource.Menu.Main_Menu);
+				menu.MenuItemClick += this.MenuButtonClick;
+				menu.DismissEvent += (s2, arg2) => {
+					menu_button.SetBackgroundResource(Resource.Drawable.menu_lines);
+					Console.WriteLine ("menu dismissed");
+				};
+				menu.Show ();
+			};
+			//filter_button.Click += (s, arg) => {
 
 		}
 	}
