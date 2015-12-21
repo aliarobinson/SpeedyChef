@@ -75,6 +75,8 @@
     <Compile Include="RecipeViewActivity.cs" />
     <Compile Include="CustomActivity.cs" />
     <Compile Include="Models\Recipe.cs" />
+    <Compile Include="CreateAnAccountActivity.cs" />
+    <Compile Include="RegistrationActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -109,6 +111,8 @@
     <AndroidResource Include="Resources\drawable\ic_face_orange_48dp.png" />
     <AndroidResource Include="Resources\drawable\gray_person.png" />
     <AndroidResource Include="Resources\values\burner_types.xml" />
+    <AndroidResource Include="Resources\layout\CreateAccount.axml" />
+    <AndroidResource Include="Resources\layout\Registration.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -186,6 +190,6 @@
     <AndroidResource Include="Resources\drawable\ThaiVegetables.jpg" />
     <AndroidResource Include="Resources\layout\Search.axml" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

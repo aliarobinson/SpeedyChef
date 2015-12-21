@@ -57,6 +57,11 @@ namespace SpeedyChef
 				CachedData.Instance.CurrHighLevelType = typeof(MainActivity);
 				CachedData.Instance.PreviousActivity = this;
 				StartActivity (intent);
+			} else if (arg.Item.TitleFormatted.ToString () == "Account" && (typeof(RegistrationActivity) != this.GetType())) {
+				var intent = new Intent (this, typeof(RegistrationActivity));
+				CachedData.Instance.CurrHighLevelType = typeof(RegistrationActivity);
+				CachedData.Instance.PreviousActivity = this;
+				StartActivity (intent);
 			}
 		}
 
