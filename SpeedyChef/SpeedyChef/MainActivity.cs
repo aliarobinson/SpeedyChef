@@ -71,7 +71,7 @@ namespace SpeedyChef
 				menu.Show ();
 			};
 
-			this.GenerateUpcomingMeals ("http://speedychef.azurewebsites.net/search/GenerateUpcomingMeals?user=tester&date1=" + DateTime.Now + "&date2=" + DateTime.Now.AddDays (7.0), "GenerateUpcomingMeals");
+			//this.GenerateUpcomingMeals ("http://speedychef.azurewebsites.net/search/GenerateUpcomingMeals?user=tester&date1=" + DateTime.Now + "&date2=" + DateTime.Now.AddDays (7.0), "GenerateUpcomingMeals");
 				
 		}
 

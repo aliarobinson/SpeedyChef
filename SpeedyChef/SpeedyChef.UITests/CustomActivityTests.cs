@@ -1,4 +1,4 @@
-﻿using System;
+﻿itusing System;
 using NUnit.Framework;
 using Xamarin.UITest;
 using Xamarin.UITest.Android;

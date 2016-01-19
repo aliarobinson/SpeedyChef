@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android.OS;
 using Android.Widget;
 
 namespace SpeedyChef
 {
-	public class RecipeStepTimer : CountDownTimer
+	public class RecipeStepTimer : CountDownTimer, ITimerObservable
 	{
-		private TextView bar_tv;
+	/*	private TextView bar_tv;
 		private TextView step_tv;
-		private ProgressBar pb;
+		private ProgressBar pb; */
 
-		private bool active;
-		private int secondsLeft;
-		private int maxSeconds;
+		//private bool active;
+		//private int secondsLeft;
+	//	private int maxSeconds;
+		private List<ITimerObserver> observers;
 
 		public RecipeStepTimer (int seconds) : base (seconds * 1000, 1000)
 		{
@@ -21,17 +23,33 @@ namespace SpeedyChef
 			this.pb = pb;
 			pb.Max = seconds;*/
 
-			active = false;
-			secondsLeft = seconds;
-			maxSeconds = seconds;
+			//active = false;
+			//secondsLeft = seconds;
+	//		maxSeconds = seconds;
+			observers = new List<ITimerObserver> ();
+		}
+
+		public void addObserver(ITimerObserver o) {
+			observers.Add (o);
+		}
+			
+		public void removeObserver(ITimerObserver o) {
+			observers.Remove (o);
+		}
+
+		public void notifyObservers(int seconds) {
+			foreach(ITimerObserver ob in observers) {
+				ob.timerUpdate (seconds);
+			}
 		}
 
 		public override void OnTick(long millisUntilFinished) {
-			secondsLeft = (int) (millisUntilFinished / 1000);
-			TimeUpdate ();
+			int secondsLeft = (int) (millisUntilFinished / 1000);
+			notifyObservers (secondsLeft);
+			//TimeUpdate ();
 		}
 
-		public void TimeUpdate() {
+		/*public void TimeUpdate() {
 			int seconds = secondsLeft;
 			int mins = seconds / 60;
 			seconds = seconds % 60;
@@ -47,14 +65,15 @@ namespace SpeedyChef
 			if (pb != null) {
 				pb.IncrementProgressBy (1);
 			}
-		}
+		}*/
 
 		public override void OnFinish() {
-			UpdateTextView ("00:00");
-			active = false;
+			//UpdateTextView ("00:00");
+			//active = false;
+			notifyObservers(0);
 		}
 
-		public void activate() {
+		/*public void activate() {
 			active = true;
 			Start ();
 		}
@@ -66,9 +85,9 @@ namespace SpeedyChef
 
 		public bool IsActive() {
 			return active;
-		}
+		}*/
 
-		public int getSecondsLeft() {
+	/*	public int getSecondsLeft() {
 			return secondsLeft;
 		}
 
@@ -104,7 +123,7 @@ namespace SpeedyChef
 			if (step_tv != null) {
 				step_tv.Text = s;
 			}
-		}
+		} */
 	}
 }
 

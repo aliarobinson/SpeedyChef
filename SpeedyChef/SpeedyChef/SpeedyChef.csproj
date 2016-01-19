@@ -67,9 +67,6 @@
     <Compile Include="BrowseNationalitiesActivity.cs" />
     <Compile Include="MealDesign.cs" />
     <Compile Include="SubtypeBrowseActivity.cs" />
-    <Compile Include="RecipeStepTimer.cs" />
-    <Compile Include="RecipeStepTimerHandler.cs" />
-    <Compile Include="TimerPoolHandler.cs" />
     <Compile Include="Utils\WebUtils.cs" />
     <Compile Include="SearchActivity.cs" />
     <Compile Include="RecipeViewActivity.cs" />
@@ -77,6 +74,14 @@
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="CreateAnAccountActivity.cs" />
     <Compile Include="RegistrationActivity.cs" />
+    <Compile Include="Timers\RecipeStepTimer.cs" />
+    <Compile Include="Timers\RecipeStepTimerHandler.cs" />
+    <Compile Include="Timers\TimerPoolHandler.cs" />
+    <Compile Include="Timers\ITimerObserver.cs" />
+    <Compile Include="Timers\ITimerObservable.cs" />
+    <Compile Include="UIComponents\StepFragmentPagerAdapter.cs" />
+    <Compile Include="UIComponents\StepFragment.cs" />
+    <Compile Include="UIComponents\TimerDisplayFrame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -192,4 +197,8 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Timers\" />
+    <Folder Include="UIComponents\" />
+  </ItemGroup>
 </Project>
