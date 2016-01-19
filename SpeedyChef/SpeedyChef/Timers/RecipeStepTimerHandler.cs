@@ -14,6 +14,7 @@ namespace SpeedyChef
 	//	private ViewGroup timerFrame;
 	//	private int timerIndex;
 		private string timerName;
+		private bool active;
 
 		public RecipeStepTimerHandler (string s, int t)
 		{
@@ -22,6 +23,7 @@ namespace SpeedyChef
 			timerName = s;
 			recipeStepTimer = new RecipeStepTimer (t);
 			observers = new List<ITimerObserver> ();
+			active = false;
 		}
 
 		public void addObserver(ITimerObserver o) {
@@ -40,6 +42,7 @@ namespace SpeedyChef
 
 		public void timerUpdate(int secondsLeft) {
 			timeLeft = secondsLeft;
+			notifyObservers(secondsLeft);
 		}
 
 		/*public void SetViews(TextView stepView, ViewGroup timerFrame) {
@@ -71,11 +74,11 @@ namespace SpeedyChef
 			this.timerIndex = x;
 		}*/
 
-		public string getTimerName() {
+		public string GetTimerName() {
 			return this.timerName;
 		}
 
-		public void getFullTime() {
+		public int GetFullTime() {
 			return this.fullTime;
 		}
 
@@ -84,22 +87,34 @@ namespace SpeedyChef
 		}*/
 
 		public void StartTimer() {
+			recipeStepTimer.addObserver (this);
 			recipeStepTimer.Start ();
+			active = true;
 		}
 			
 		public void PauseTimer() {
 //			recipeStepTimer.deactivate ();
-		recipeStepTimer.Cancel();
-			recipeStepTimer = new RecipeStepTimer (time);
-			recipeStepTimer.addObserver (this);
+			clearTimer();
+			recipeStepTimer = new RecipeStepTimer (timeLeft);
 			/*newTimer.SetStepTextView (recipeStepTimer.GetStepTextView ());
 			newTimer.SetBarTextView (recipeStepTimer.GetBarTextView ());
 			newTimer.SetProgressBar (recipeStepTimer.GetProgressBar ());*/
 		}
 
-		/*public bool IsActive() {
-			return recipeStepTimer.IsActive ();
-		}*/
+		public void StopTimer() {
+			clearTimer ();
+			this.recipeStepTimer = null;
+		}
+
+		private void clearTimer() {
+			this.recipeStepTimer.Cancel ();
+			this.recipeStepTimer.removeObserver (this);
+			this.active = false;
+		}
+
+		public bool IsActive() {
+			return this.active;
+		}
 
 	}
 }

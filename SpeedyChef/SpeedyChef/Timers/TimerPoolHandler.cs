@@ -8,18 +8,18 @@ namespace SpeedyChef
 {
 	public class TimerPoolHandler
 	{
-		//private ITimerObserver[] observers;
+		private TimerDisplayFrame[] displays;
 		private RecipeStepTimerHandler[] timers;
 		private int timerIndex;
 		private int maxTimers;
 
-		public TimerPoolHandler (ITimerObserver[] timerObservers)
+		public TimerPoolHandler (TimerDisplayFrame[] displays)
 		{
 		//	this.timerFrames = timerFrames;
-			this.maxTimers = timerObservers.Length;
+			this.maxTimers = displays.Length;
 			this.timerIndex = 0;
-			//this.observers = timerObservers;
-			this.timers = new RecipeStepTimerHandler[timerObservers.Length];
+			this.displays = displays;
+			this.timers = new RecipeStepTimerHandler[maxTimers];
 		}
 
 		/*public RecipeStepTimerHandler[] getTimers() {
@@ -74,8 +74,11 @@ namespace SpeedyChef
 
 
 		public bool ActivateTimer(RecipeStepTimerHandler t) {
+			Console.WriteLine ("ACTIVATING TIMER");
 			if (timerIndex >= timers.Length)
 				return false;
+			this.timers [timerIndex] = t;
+			this.displays [timerIndex].setTimer (t);
 			t.StartTimer ();
 			//button.SetText (Resource.String.pause);
 
@@ -99,12 +102,16 @@ namespace SpeedyChef
 			Console.WriteLine ("Deactivating timer " + t.getTimerIndex());
 			Console.WriteLine ("Total Timer Index: " + timerIndex);
 */
-			timerIndex--;
 
 			//Shift all active timers down
 			for (int i = timerPosition; i < timerIndex; i++) {
+				displays [i].clearTimer ();
 				timers [i] = timers [i + 1];
+				if (timers [i] != null) {
+					displays [i].setTimer (timers [i]);
+				}
 			}
+			timerIndex--;
 			return true;
 		}
 			

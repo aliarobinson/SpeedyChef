@@ -28,14 +28,17 @@ namespace SpeedyChef
 				rootView.FindViewById (Resource.Id.step_timer_wrapper).Visibility = ViewStates.Visible;
 				timeTv = (TextView) rootView.FindViewById (Resource.Id.step_timer_display);
 				Button startButton = rootView.FindViewById<Button> (Resource.Id.step_timer_start_button);
-				/*if (this.recipeStep.timerHandler.IsActive ()) {
-					startButton.SetText (Resource.String.pause);
-				} else {
-					timeTv.Text = (this.recipeStep.time / 60).ToString () + ":00";
-
-				}
-				handler.AssignFragView (this.recipeStep.timerHandler, timeTv, startButton, ((StepsActivity)Activity).GetViewPager());
-*/
+				startButton.Click += delegate {
+					RecipeStepTimerHandler stepTimer = this.recipeStep.timerHandler;
+					if(stepTimer.IsActive()) {
+						startButton.SetText(Resource.String.start);
+						handler.DeactivateTimer(stepTimer);
+					}
+					else {
+						startButton.SetText (Resource.String.pause);
+						handler.ActivateTimer(stepTimer);
+					}
+				};
 			}
 			else { // Don't add a timer, just display the time estimate
 				rootView.FindViewById (Resource.Id.step_static_time).Visibility = ViewStates.Visible;

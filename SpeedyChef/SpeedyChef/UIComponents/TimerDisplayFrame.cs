@@ -10,6 +10,8 @@ namespace SpeedyChef
 		private TextView countdownDisplay;
 		private ProgressBar progressBar;
 
+		private RecipeStepTimerHandler handler;
+
 		public TimerDisplayFrame (ViewGroup frame)
 		{
 			this.displayFrame = frame;
@@ -18,10 +20,17 @@ namespace SpeedyChef
 		}
 
 		public void setTimer(RecipeStepTimerHandler h) {
+			this.handler = h;
 			this.progressBar.Max = h.GetFullTime ();
 			TextView tv = this.displayFrame.FindViewById<TextView> (Resource.Id.walkthrough_text);
-			tv.SetText (h.GetTimerName());
+			tv.Text = h.GetTimerName();
 			h.addObserver (this);
+			this.displayFrame.Visibility = ViewStates.Visible;
+		}
+
+		public void clearTimer() {
+			this.displayFrame.Visibility = ViewStates.Gone;
+			this.handler.removeObserver (this);
 		}
 
 		public void timerUpdate(int seconds) {
@@ -34,7 +43,7 @@ namespace SpeedyChef
 				display = mins + ":" + seconds;
 			}
 
-			this.countdownDisplay.SetText (display);
+			this.countdownDisplay.Text = display;
 
 			if (this.progressBar != null) {
 				this.progressBar.IncrementProgressBy (1);

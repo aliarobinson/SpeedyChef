@@ -23,7 +23,7 @@ namespace SpeedyChef
 				if(i > 1 && i < 4) //For testing
 					currentStep.timeable = true;
 				if (currentStep.timeable)
-					currentStep.timerHandler = new RecipeStepTimerHandler (currentStep.time);
+					currentStep.timerHandler = new RecipeStepTimerHandler (currentStep.title, currentStep.time);
 				steps [i] = currentStep;
 			}
 			return steps;
