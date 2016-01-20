@@ -23,7 +23,7 @@ namespace SpeedyChef
 				if(i > 1 && i < 4) //For testing
 					currentStep.timeable = true;
 				if (currentStep.timeable)
-					currentStep.timerHandler = new RecipeStepTimerHandler (currentStep.time, currentStep.title);
+					currentStep.timerHandler = new RecipeStepTimerHandler (currentStep.title, currentStep.time);
 				steps [i] = currentStep;
 			}
 			return steps;
@@ -41,7 +41,7 @@ namespace SpeedyChef
 			//r.diff = recipeInfo ["Recdiff"];
 			string[] ingredients = new string[recipeIngredients.Count];
 			string[] tasks = new string[recipeTasks.Count];
-			for (int i = 0; i < recipeIngredients.Count; i++) {
+			/*for (int i = 0; i < recipeIngredients.Count; i++) {
 				//ingredients [i] = "Ingredient " + i;
 				string ingredient = recipeIngredients[i]["Foodname"];
 				if (recipeIngredients [i] ["FoodAmount"] != null)
@@ -50,7 +50,7 @@ namespace SpeedyChef
 					ingredient += " " + recipeIngredients [i] ["FoodAmountUnit"];
 				
 				ingredients [i] = ingredient;
-			}
+			}*/
 
 			int recTime = 0;
 			for (int i = 0; i < recipeTasks.Count; i++) {
