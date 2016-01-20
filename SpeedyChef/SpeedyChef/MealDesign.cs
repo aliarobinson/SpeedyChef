@@ -50,17 +50,19 @@ namespace SpeedyChef
 
 			//MENU VIEW
 			Button menu_button = FindViewById<Button> (Resource.Id.menu_button);
-			menu_button.Click += (s, arg) => {
-				menu_button.SetBackgroundResource (Resource.Drawable.pressed_lines);
-				PopupMenu menu = new PopupMenu (this, menu_button);
-				menu.Inflate (Resource.Menu.Main_Menu);
-				menu.MenuItemClick += this.MenuButtonClick;
-				menu.DismissEvent += (s2, arg2) => {
-					menu_button.SetBackgroundResource (Resource.Drawable.menu_lines);
-					// Console.WriteLine ("menu dismissed");
-				};
-				menu.Show ();
-			};
+			MenuButtonSetupSuperClass (menu_button);
+
+//			menu_button.Click += (s, arg) => {
+//				menu_button.SetBackgroundResource (Resource.Drawable.pressed_lines);
+//				PopupMenu menu = new PopupMenu (this, menu_button);
+//				menu.Inflate (Resource.Menu.Main_Menu);
+//				menu.MenuItemClick += this.MenuButtonClick;
+//				menu.DismissEvent += (s2, arg2) => {
+//					menu_button.SetBackgroundResource (Resource.Drawable.menu_lines);
+//					// Console.WriteLine ("menu dismissed");
+//				};
+//				menu.Show ();
+//			};
 
 
 			SeekBar sb = FindViewById<SeekBar> (Resource.Id.dinerCounter);

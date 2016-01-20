@@ -1666,50 +1666,47 @@ namespace SpeedyChef
 			// aapt resource value: 0x7f020077
 			public const int MexicanWraps = 2130837623;
 			
-			// aapt resource value: 0x7f020078
-			public const int monoandroidsplash = 2130837624;
+			// aapt resource value: 0x7f020085
+			public const int notification_template_icon_bg = 2130837637;
 			
-			// aapt resource value: 0x7f020086
-			public const int notification_template_icon_bg = 2130837638;
+			// aapt resource value: 0x7f020078
+			public const int pressed_lines = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int pressed_lines = 2130837625;
+			public const int SpanishDesserts = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int SpanishDesserts = 2130837626;
+			public const int SpanishFood = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int SpanishFood = 2130837627;
+			public const int SpanishMeats = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int SpanishMeats = 2130837628;
+			public const int SpanishOmelettes = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int SpanishOmelettes = 2130837629;
+			public const int SpanishVegetables = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int SpanishVegetables = 2130837630;
+			public const int ThaiDesserts = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int ThaiDesserts = 2130837631;
+			public const int ThaiFood = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int ThaiFood = 2130837632;
+			public const int ThaiFoodEx = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int ThaiFoodEx = 2130837633;
+			public const int ThaiMeats = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int ThaiMeats = 2130837634;
+			public const int ThaiVegetables = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int ThaiVegetables = 2130837635;
+			public const int timing_progress = 2130837635;
 			
 			// aapt resource value: 0x7f020084
-			public const int timing_progress = 2130837636;
-			
-			// aapt resource value: 0x7f020085
-			public const int VegTemp = 2130837637;
+			public const int VegTemp = 2130837636;
 			
 			static Drawable()
 			{
@@ -3180,9 +3177,6 @@ namespace SpeedyChef
 			
 			// aapt resource value: 0x7f080142
 			public const int MealDateButton = 2131231042;
-			
-			// aapt resource value: 0x7f080147
-			public const int Mono_Android_Theme_Splash = 2131231047;
 			
 			// aapt resource value: 0x7f080131
 			public const int MyTheme = 2131231025;

@@ -31,13 +31,19 @@ namespace SpeedyChef
 			base.OnCreate (bundle);
 
 			//RECYCLER VIEW
+//			mObject = new PlannedMealObject ();
+//			mAdapter = new PlannedMealAdapter (mObject);
+//			SetContentView (Resource.Layout.Main);
+//			mRecyclerView = FindViewById<v7Widget.RecyclerView> (Resource.Id.recyclerView);
+//			mRecyclerView.SetAdapter (mAdapter);
+//			mLayoutManager = new v7Widget.LinearLayoutManager (this);
+//			mRecyclerView.SetLayoutManager (mLayoutManager);
+
 			mObject = new PlannedMealObject ();
 			mAdapter = new PlannedMealAdapter (mObject);
 			SetContentView (Resource.Layout.Main);
-			mRecyclerView = FindViewById<v7Widget.RecyclerView> (Resource.Id.recyclerView);
-			mRecyclerView.SetAdapter (mAdapter);
 			mLayoutManager = new v7Widget.LinearLayoutManager (this);
-			mRecyclerView.SetLayoutManager (mLayoutManager);
+			deployRecyclerView (mAdapter, mLayoutManager,mRecyclerView);
 
 			//SEARCH VIEW
 			SearchView searchView = FindViewById<SearchView> (Resource.Id.main_search);
@@ -59,19 +65,22 @@ namespace SpeedyChef
 
 			//MENU VIEW
 			Button menu_button = FindViewById<Button> (Resource.Id.menu_button);
-			menu_button.Click += (s, arg) => {
-				menu_button.SetBackgroundResource(Resource.Drawable.pressed_lines);
-				PopupMenu menu = new PopupMenu (this, menu_button);
-				menu.Inflate (Resource.Menu.Main_Menu);
-				menu.MenuItemClick += this.MenuButtonClick;
-				menu.DismissEvent += (s2, arg2) => {
-					menu_button.SetBackgroundResource(Resource.Drawable.menu_lines);
-					Console.WriteLine ("menu dismissed");
-				};
-				menu.Show ();
-			};
+			MenuButtonSetupSuperClass (menu_button);
 
-			this.GenerateUpcomingMeals ("http://speedychef.azurewebsites.net/search/GenerateUpcomingMeals?user=tester&date1=" + DateTime.Now + "&date2=" + DateTime.Now.AddDays (7.0), "GenerateUpcomingMeals");
+			//MenuButtonSetup (menu_button);
+//			menu_button.Click += (s, arg) => {
+//				menu_button.SetBackgroundResource(Resource.Drawable.pressed_lines);
+//				PopupMenu menu = new PopupMenu (this, menu_button);
+//				menu.Inflate (Resource.Menu.Main_Menu);
+//				menu.MenuItemClick += this.MenuButtonClick;
+//				menu.DismissEvent += (s2, arg2) => {
+//					menu_button.SetBackgroundResource(Resource.Drawable.menu_lines);
+//					Console.WriteLine ("menu dismissed");
+//				};
+//				menu.Show ();
+//			};
+
+			//this.GenerateUpcomingMeals ("http://speedychef.azurewebsites.net/search/GenerateUpcomingMeals?user=tester&date1=" + DateTime.Now + "&date2=" + DateTime.Now.AddDays (7.0), "GenerateUpcomingMeals");
 				
 		}
 
@@ -112,37 +121,45 @@ namespace SpeedyChef
 		{
 			return false;
 		}
+		public void deployRecyclerView(PlannedMealAdapter mAdapter, v7Widget.RecyclerView.LayoutManager mLayoutManager,
+			v7Widget.RecyclerView mRecyclerView) {
 
-		public void GenerateUpcomingMeals(string inURL, string inMethod){
-			lock (thisLock) {
-				// Create an HTTP web request using the URL:
-				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (new Uri (inURL));
-				request.ContentType = "application/json";
-				request.Method = inMethod;
-
-				// Send the request to the server and wait for the response:
-				using (WebResponse response = request.GetResponse ()) {
-					// Get a stream representation of the HTTP web response:
-					using (Stream stream = response.GetResponseStream ()) {
-						// Use this stream to build a JSON document object:
-						this.jsonDoc = JsonObject.Load (stream);
-					}
-				}
-				int tempNum = this.mObject.NumElements;
-				for (int i = this.mObject.NumElements - 1; i > -1; i--) {
-					this.mObject.Remove (i);
-					this.mAdapter.NotifyItemRemoved (i);
-				}
-				for (int k = 0; k < this.jsonDoc.Count; k++) {
-					string[] separation = this.jsonDoc [k].ToString ().Split (';');
-					string finalSep0 = separation[0].Remove(0, 1);
-					string finalSep2 = separation[2].Remove((separation[2].Length - 1));
-					Tuple<string, string, string> newTuple = new Tuple<string, string, string> (finalSep0, separation [1], finalSep2);
-					this.mObject.Add (newTuple);
-					this.mAdapter.NotifyItemInserted (k);
-				}
-			}
+			this.mRecyclerView = FindViewById<v7Widget.RecyclerView> (Resource.Id.recyclerView);
+			this.mRecyclerView.SetAdapter (mAdapter);
+			this.mRecyclerView.SetLayoutManager (mLayoutManager);
 		}
+
+//		public void GenerateUpcomingMeals(string inURL, string inMethod){
+//			lock (thisLock) {
+//				// Create an HTTP web request using the URL:
+//				HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (new Uri (inURL));
+//				request.ContentType = "application/json";
+//				request.Method = inMethod;
+//
+//				// Send the request to the server and wait for the response:
+//				using (WebResponse response = request.GetResponse ()) {
+//					// Get a stream representation of the HTTP web response:
+//					using (Stream stream = response.GetResponseStream ()) {
+//						// Use this stream to build a JSON document object:
+//						this.jsonDoc = JsonObject.Load (stream);
+//					}
+//				}
+//
+//				int tempNum = this.mObject.NumElements;
+//				for (int i = this.mObject.NumElements - 1; i > -1; i--) {
+//					this.mObject.Remove (i);
+//					this.mAdapter.NotifyItemRemoved (i);
+//				}
+//				for (int k = 0; k < this.jsonDoc.Count; k++) {
+//					string[] separation = this.jsonDoc [k].ToString ().Split (';');
+//					string finalSep0 = separation[0].Remove(0, 1);
+//					string finalSep2 = separation[2].Remove((separation[2].Length - 1));
+//					Tuple<string, string, string> newTuple = new Tuple<string, string, string> (finalSep0, separation [1], finalSep2);
+//					this.mObject.Add (newTuple);
+//					this.mAdapter.NotifyItemInserted (k);
+//				}
+//			}
+//		}
 	}
 
 	public class PlannedMealViewHolder : v7Widget.RecyclerView.ViewHolder

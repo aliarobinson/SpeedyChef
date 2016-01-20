@@ -65,6 +65,45 @@ namespace SpeedyChef
 			}
 		}
 
+		public void MenuButtonSetupSuperClass(Button m_button) {
+			m_button.Click += (s, arg) => {
+				m_button.SetBackgroundResource(Resource.Drawable.pressed_lines);
+				PopupMenu menu = new PopupMenu (this, m_button);
+				menu.Inflate (Resource.Menu.Main_Menu);
+				menu.MenuItemClick += this.MenuButtonClick;
+				menu.DismissEvent += (s2, arg2) => {
+					m_button.SetBackgroundResource(Resource.Drawable.menu_lines);
+					Console.WriteLine ("menu dismissed");
+				};
+				menu.Show ();
+			};
+		}
+
+		public void SearchViewSuper(SearchView searchView, TextView textView) {
+			searchView.SetBackgroundColor (Android.Graphics.Color.DarkOrange);
+			searchView.SetOnQueryTextListener ((SearchView.IOnQueryTextListener) this);
+			textView.SetTextColor(Android.Graphics.Color.White);
+			textView.SetHintTextColor (Android.Graphics.Color.White);
+			searchView.SetQueryHint ("Search Recipes...");
+			LinearLayout search_container = FindViewById<LinearLayout> (Resource.Id.search_container);
+			search_container.Click += (sender, e) => {
+				if (searchView.Iconified != false){
+					searchView.Iconified = false;
+				}
+			};
+		}
+
+//		public void RecyclerViewSuper(SideBySideObject mObject,SideBySideAdapter mAdapter, v7Widget.RecyclerView mRecyclerView,v7Widget.RecyclerView.LayoutManager mLayoutManager) {
+//			//RECYCLER VIEW
+//			mObject = new SideBySideObject (CachedData.Instance.TupleDict[CachedData.Instance.SelectedNationality]);
+//			mAdapter = new SideBySideAdapter (mObject, this, true);
+//			SetContentView (Resource.Layout.BrowseNationalities);
+//			mRecyclerView = FindViewById<v7Widget.RecyclerView> (Resource.Id.recyclerView);
+//			mRecyclerView.SetAdapter (mAdapter);
+//			mLayoutManager = new v7Widget.LinearLayoutManager (this);
+//			mRecyclerView.SetLayoutManager (mLayoutManager);
+//		}
+
 	}
 
 	public class CachedData

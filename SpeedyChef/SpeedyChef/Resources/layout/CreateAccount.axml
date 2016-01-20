@@ -21,12 +21,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText1"
-        android:text="Full Name" />
+        android:text="FullName" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText2"
-        android:text="Email Address" />
+        android:text="EmailAddress" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText5"
-        android:text="Confirm Password" />
+        android:text="ConfirmPassword" />
     <Button
         android:text="Create an Account"
         android:layout_width="match_parent"
