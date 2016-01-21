@@ -48,6 +48,7 @@
     <Compile Include="Tests.cs" />
     <Compile Include="CustomActivityTests.cs" />
     <Compile Include="TimersTest.cs" />
+    <Compile Include="SearchActivityTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

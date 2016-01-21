@@ -82,40 +82,25 @@ namespace SpeedyChef
 			RightImage = itemView.FindViewById<ImageView> (Resource.Id.imageViewRight);
 			RightText = itemView.FindViewById<TextView> (Resource.Id.textViewRight);
 			if (!searchLanding) {
-				this.attributeClicks ();
+				Type t =  Type.GetType("SpeedyChef.SubtypeBrowseActivity");
+				responseToClick (t);
 			} 
 			else {
-				this.searchClicks ();
+				Type t =  Type.GetType("SpeedyChef.SearchActivity");
+				responseToClick (t);
 			}
 		}
 
-		public void attributeClicks()
-		{
+		public void responseToClick(Type t) {
 			LeftImage.Click += (sender, e) => {
 				CachedData.Instance.SelectedNationality = LeftText.Text;
-				var intent = new Intent(callingActivity, typeof(SubtypeBrowseActivity));
+				var intent = new Intent(callingActivity, t);
 				CachedData.Instance.PreviousActivity = this.callingActivity;
 				callingActivity.StartActivity(intent);
 			};
 			RightImage.Click += (sender, e) => {
 				CachedData.Instance.SelectedNationality = RightText.Text;
-				var intent = new Intent(callingActivity, typeof(SubtypeBrowseActivity));
-				CachedData.Instance.PreviousActivity = this.callingActivity;
-				callingActivity.StartActivity(intent);
-			};
-		}
-
-		public void searchClicks()
-		{
-			LeftImage.Click += (sender, e) => {
-				CachedData.Instance.SelectedSubgenre = LeftText.Text;
-				var intent = new Intent(callingActivity, typeof(SearchActivity));
-				CachedData.Instance.PreviousActivity = this.callingActivity;
-				callingActivity.StartActivity(intent);
-			};
-			RightImage.Click += (sender, e) => {
-				CachedData.Instance.SelectedSubgenre = RightText.Text;
-				var intent = new Intent(callingActivity, typeof(SearchActivity));
+				var intent = new Intent(callingActivity, t);
 				CachedData.Instance.PreviousActivity = this.callingActivity;
 				callingActivity.StartActivity(intent);
 			};
