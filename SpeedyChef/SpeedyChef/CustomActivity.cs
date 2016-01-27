@@ -13,6 +13,7 @@ using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Graphics.Drawables;
 using Android.Util;
+using v7Widget = Android.Support.V7.Widget;
 
 namespace SpeedyChef
 {
@@ -77,6 +78,15 @@ namespace SpeedyChef
 				};
 				menu.Show ();
 			};
+		}
+
+		public v7Widget.RecyclerView superDeployRecyclerView(PlannedMealAdapter mAdapter, v7Widget.RecyclerView.LayoutManager mLayoutManager,
+			v7Widget.RecyclerView mRecyclerView) {
+
+			mRecyclerView = FindViewById<v7Widget.RecyclerView> (Resource.Id.recyclerView);
+			mRecyclerView.SetAdapter (mAdapter);
+			mRecyclerView.SetLayoutManager (mLayoutManager);
+			return mRecyclerView;
 		}
 
 		public void SearchViewSuper(SearchView searchView, TextView textView) {

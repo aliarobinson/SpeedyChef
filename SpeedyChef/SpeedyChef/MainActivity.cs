@@ -45,6 +45,7 @@ namespace SpeedyChef
 			mLayoutManager = new v7Widget.LinearLayoutManager (this);
 			deployRecyclerView (mAdapter, mLayoutManager,mRecyclerView);
 
+
 			//SEARCH VIEW
 			SearchView searchView = FindViewById<SearchView> (Resource.Id.main_search);
 			searchView.SetBackgroundColor (Android.Graphics.Color.DarkOrange);
