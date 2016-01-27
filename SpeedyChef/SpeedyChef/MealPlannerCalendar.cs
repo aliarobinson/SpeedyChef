@@ -96,13 +96,14 @@ namespace SpeedyChef
 			monthInfo.Text = current.ToString ("MMMMMMMMMM") + " of " + current.Year;
 
 			// Retrieve buttons from layouts
-			daysList [0] = new DateButton (FindViewById<Button> (Resource.Id.day1));
-			daysList [1] = new DateButton (FindViewById<Button> (Resource.Id.day2));
-			daysList [2] = new DateButton (FindViewById<Button> (Resource.Id.day3));
-			daysList [3] = new DateButton (FindViewById<Button> (Resource.Id.day4));
-			daysList [4] = new DateButton (FindViewById<Button> (Resource.Id.day5));
-			daysList [5] = new DateButton (FindViewById<Button> (Resource.Id.day6));
-			daysList [6] = new DateButton (FindViewById<Button> (Resource.Id.day7));
+			getButtonsFromLayout();
+//			daysList [0] = new DateButton (FindViewById<Button> (Resource.Id.day1));
+//			daysList [1] = new DateButton (FindViewById<Button> (Resource.Id.day2));
+//			daysList [2] = new DateButton (FindViewById<Button> (Resource.Id.day3));
+//			daysList [3] = new DateButton (FindViewById<Button> (Resource.Id.day4));
+//			daysList [4] = new DateButton (FindViewById<Button> (Resource.Id.day5));
+//			daysList [5] = new DateButton (FindViewById<Button> (Resource.Id.day6));
+//			daysList [6] = new DateButton (FindViewById<Button> (Resource.Id.day7));
 			// Assigning dates to days
 			handleCalendar (current);
 			// Adding action listeners
@@ -125,6 +126,16 @@ namespace SpeedyChef
 			debug.Text = "";
 			// LinearLayout ll = FindViewById<LinearLayout> (Resource.Id.MealDisplay);
 			// Console.WriteLine (ll.ChildCount + " Look for me");
+		}
+
+		public void getButtonsFromLayout(){
+			daysList [0] = new DateButton (FindViewById<Button> (Resource.Id.day1));
+			daysList [1] = new DateButton (FindViewById<Button> (Resource.Id.day2));
+			daysList [2] = new DateButton (FindViewById<Button> (Resource.Id.day3));
+			daysList [3] = new DateButton (FindViewById<Button> (Resource.Id.day4));
+			daysList [4] = new DateButton (FindViewById<Button> (Resource.Id.day5));
+			daysList [5] = new DateButton (FindViewById<Button> (Resource.Id.day6));
+			daysList [6] = new DateButton (FindViewById<Button> (Resource.Id.day7));
 		}
 
 		protected override void OnActivityResult (int requestCode, 
@@ -369,10 +380,8 @@ namespace SpeedyChef
 				// requestCode for Design page 3
 
 			};
-
 			button.LayoutParameters = lp;
 			button.Text = json ["Mealname"];
-
 			button.Visibility = Android.Views.ViewStates.Visible;
 			button.SetBackgroundColor (Resources.GetColor (Resource.Color.orange_header));
 			button.Gravity = GravityFlags.Center;
