@@ -14,7 +14,7 @@ namespace SpeedyChef
 	//	private ViewGroup timerFrame;
 	//	private int timerIndex;
 		private string timerName;
-		private bool active;
+		protected bool active;
 
 		public RecipeStepTimerHandler (string s, int t)
 		{
@@ -86,13 +86,13 @@ namespace SpeedyChef
 			this.timerName = s;
 		}*/
 
-		public void StartTimer() {
+		public virtual void StartTimer() {
 			recipeStepTimer.addObserver (this);
 			recipeStepTimer.Start ();
 			active = true;
 		}
 			
-		public void PauseTimer() {
+		public virtual void PauseTimer() {
 //			recipeStepTimer.deactivate ();
 			clearTimer();
 			recipeStepTimer = new RecipeStepTimer (timeLeft);

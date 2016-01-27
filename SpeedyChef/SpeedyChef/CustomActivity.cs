@@ -20,6 +20,15 @@ namespace SpeedyChef
 	[Activity (Theme="@style/MyTheme", Label = "SpeedyChef", Icon = "@drawable/icon")]
 	public class CustomActivity : FragmentActivity
 	{
+		Dictionary<string, string> titleToClassname = new Dictionary<string, string> (){
+			{"Browse", "BrowseNationalitiesActivity"},
+			{"Plan", "MealPlannerCalendar"},
+			{"Walkthrough", "StepsActivity"},
+			{"Search", "SearchActivity"},
+			{"Preferences", "Allergens"},
+			{"Home", "MainActivity"},
+			{"Account", "RegistrationActivity"}
+		};
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -27,43 +36,19 @@ namespace SpeedyChef
 		}
 
 		public void MenuButtonClick (object s, PopupMenu.MenuItemClickEventArgs arg){
-			if (arg.Item.TitleFormatted.ToString () == "Browse" && (typeof(BrowseNationalitiesActivity) != this.GetType())) {
-				var intent = new Intent (this, typeof(BrowseNationalitiesActivity));
-				CachedData.Instance.PreviousActivity = this;
-				CachedData.Instance.CurrHighLevelType = typeof(BrowseNationalitiesActivity);
-				StartActivity (intent);
-			} else if (arg.Item.TitleFormatted.ToString () == "Plan" && (typeof(MealPlannerCalendar) != this.GetType())) {
-				var intent = new Intent (this, typeof(MealPlannerCalendar));
-				CachedData.Instance.CurrHighLevelType = typeof(MealPlannerCalendar);
-				CachedData.Instance.PreviousActivity = this;
-				StartActivity (intent);
-			} else if (arg.Item.TitleFormatted.ToString () == "Walkthrough" && (typeof(StepsActivity) != this.GetType())) {
-				var intent = new Intent (this, typeof(StepsActivity));
-				CachedData.Instance.CurrHighLevelType = typeof(StepsActivity);
-				CachedData.Instance.PreviousActivity = this;
-				intent.PutExtra ("AgendaId", 1);
-				StartActivity (intent);
-			} else if (arg.Item.TitleFormatted.ToString () == "Search" && (typeof(SearchActivity) != this.GetType())) {
-				var intent = new Intent (this, typeof(SearchActivity));
-				CachedData.Instance.CurrHighLevelType = typeof(SearchActivity);
-				CachedData.Instance.PreviousActivity = this;
-				StartActivity (intent);
-			} else if (arg.Item.TitleFormatted.ToString () == "Preferences" && (typeof(Allergens) != this.GetType())) {
-				var intent = new Intent (this, typeof(Allergens));
-				CachedData.Instance.CurrHighLevelType = typeof(Allergens);
-				CachedData.Instance.PreviousActivity = this;
-				StartActivity (intent);
-			} else if (arg.Item.TitleFormatted.ToString () == "Home" && (typeof(MainActivity) != this.GetType())) {
-				var intent = new Intent (this, typeof(MainActivity));
-				CachedData.Instance.CurrHighLevelType = typeof(MainActivity);
-				CachedData.Instance.PreviousActivity = this;
-				StartActivity (intent);
-			} else if (arg.Item.TitleFormatted.ToString () == "Account" && (typeof(RegistrationActivity) != this.GetType())) {
-				var intent = new Intent (this, typeof(RegistrationActivity));
-				CachedData.Instance.CurrHighLevelType = typeof(RegistrationActivity);
-				CachedData.Instance.PreviousActivity = this;
-				StartActivity (intent);
+			string classname = titleToClassname [arg.Item.TitleFormatted.ToString ()];
+			Type t =  Type.GetType("SpeedyChef."+ classname);
+			if (t != this.GetType ()) {
+				changeToView (t);
 			}
+		}
+
+		public void changeToView(Type t)
+		{
+			var intent = new Intent (this, t);
+			CachedData.Instance.CurrHighLevelType = t;
+			CachedData.Instance.PreviousActivity = this;
+			StartActivity (intent);
 		}
 
 		public void MenuButtonSetupSuperClass(Button m_button) {

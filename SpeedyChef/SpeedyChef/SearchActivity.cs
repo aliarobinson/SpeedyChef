@@ -67,35 +67,25 @@ namespace SpeedyChef
 			//MENU VIEW
 			Button menu_button = FindViewById<Button> (Resource.Id.menu_button);
 			MenuButtonSetupSuperClass (menu_button);
-//			menu_button.Click += (s, arg) => {
-//				menu_button.SetBackgroundResource (Resource.Drawable.pressed_lines);
-//				PopupMenu menu = new PopupMenu (this, menu_button);
-//				menu.Inflate (Resource.Menu.Main_Menu);
-//				menu.MenuItemClick += this.MenuButtonClick;
-//				menu.DismissEvent += (s2, arg2) => {
-//					menu_button.SetBackgroundResource (Resource.Drawable.menu_lines);
-//					Console.WriteLine ("menu dismissed");
-//				};
-//				menu.Show ();
-//			};
+			//			menu_button.Click += (s, arg) => {
+			//				menu_button.SetBackgroundResource (Resource.Drawable.pressed_lines);
+			//				PopupMenu menu = new PopupMenu (this, menu_button);
+			//				menu.Inflate (Resource.Menu.Main_Menu);
+			//				menu.MenuItemClick += this.MenuButtonClick;
+			//				menu.DismissEvent += (s2, arg2) => {
+			//					menu_button.SetBackgroundResource (Resource.Drawable.menu_lines);
+			//					Console.WriteLine ("menu dismissed");
+			//				};
+			//				menu.Show ();
+			//			};
 
 			this.filter_button = FindViewById<Button> (Resource.Id.filter_button);
 			RegisterForContextMenu (filter_button);
 			filter_button.Click += (s, arg) => {
 				((Button) s).ShowContextMenu();
 			};
-				
-			if(CachedData.Instance.PreviousActivity.GetType() == typeof(SubtypeBrowseActivity)){
-				string selectionInput = CachedData.Instance.SelectedSubgenre.Replace(' ', ',');
-				string url = "http://speedychef.azurewebsites.net/search/searchbyunion?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc + "&subgenre=" + selectionInput;
-				this.ProcessSingleSearchQuery (url, "SearchByUnion");
-			}
 
-			if(CachedData.Instance.SubmissionFromMain){
-				string url = "http://speedychef.azurewebsites.net/search/search?inputKeywords=" + CachedData.Instance.LastSubmissionFromMain + "&ordertype=" + this.ordertype + "&ascending=" + this.asc;
-				this.ProcessSingleSearchQuery (url, "Search");
-				CachedData.Instance.SubmissionFromMain = false;
-			}
+			showFiltered (null);
 
 		}
 
@@ -119,56 +109,42 @@ namespace SpeedyChef
 
 		public override bool OnContextItemSelected (IMenuItem item)
 		{
+			Dictionary<int, string> itemIDtoButtonText = new Dictionary<int, string> () {
+				{Resource.Id.Time, "Time"},
+				{Resource.Id.Difficulty, "Difficulty"},
+				{Resource.Id.Both, "Both"}
+			};
+
+			Dictionary<int, string> itemIDtoOrderType = new Dictionary<int, string> () {
+				{Resource.Id.Time, "Time"},
+				{Resource.Id.Difficulty, "Diff"},
+				{Resource.Id.Both, "Both"}
+			};
+
 			base.OnContextItemSelected(item);
-			string selectionInput = "";
-			if (CachedData.Instance.SelectedSubgenre != null) {
-				selectionInput = CachedData.Instance.SelectedSubgenre.Replace(' ', ',');
-			}
-			switch (item.ItemId) {
-			case Resource.Id.Time:
-				{
-					this.filter_button.Text = "Time";
-					this.ordertype = "Time";
-					if (CachedData.Instance.PreviousActivity.GetType() == typeof(SubtypeBrowseActivity)) {
-						string url = "http://speedychef.azurewebsites.net/search/searchbyunion?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc + "&subgenre=" + selectionInput;
-						this.ProcessSingleSearchQuery (url, "SearchByUnion");
-					} else {
-						string url = "http://speedychef.azurewebsites.net/search/search?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc;
-						this.ProcessSingleSearchQuery (url, "Search");
-					}
-					break;
-				}
-			case Resource.Id.Difficulty:
-				{
-					this.filter_button.Text = "Difficulty";
-					this.ordertype = "Diff";
-					if (CachedData.Instance.PreviousActivity.GetType() == typeof(SubtypeBrowseActivity)) {
-						string url = "http://speedychef.azurewebsites.net/search/searchbyunion?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc + "&subgenre=" + selectionInput;
-						this.ProcessSingleSearchQuery (url, "SearchByUnion");
-					} else {
-						string url = "http://speedychef.azurewebsites.net/search/search?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc;
-						this.ProcessSingleSearchQuery (url, "Search");
-					}
-					break;
-				}
-			case Resource.Id.Both:
-				{
-					this.filter_button.Text = "Both";
-					this.ordertype = "Both";
-					if (CachedData.Instance.PreviousActivity.GetType() == typeof(SubtypeBrowseActivity)) {
-						string url = "http://speedychef.azurewebsites.net/search/searchbyunion?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc + "&subgenre=" + selectionInput;
-						this.ProcessSingleSearchQuery (url, "SearchByUnion");
-					} else {
-						string url = "http://speedychef.azurewebsites.net/search/search?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc;
-						this.ProcessSingleSearchQuery (url, "Search");
-					}
-					break;
-				}
-			default:
-				break;
-			}
+
+			string buttonText = itemIDtoButtonText [item.ItemId];
+			this.filter_button.Text = buttonText;
+			string orderType = itemIDtoOrderType [item.ItemId];
+			this.ordertype = orderType;
+
+			showFiltered (null);
 
 			return true;
+		}
+
+		public void showFiltered(string input) {
+			if (input != null) {
+				this.mostRecentKeywords = input.Replace (" ", ",");
+			}
+			if (CachedData.Instance.PreviousActivity.GetType () == typeof(SubtypeBrowseActivity)) {
+				string selectionInput = CachedData.Instance.SelectedSubgenre.Replace (' ', ',');
+				string url = "http://speedychef.azurewebsites.net/search/searchbyunion?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc + "&subgenre=" + selectionInput;
+				this.ProcessSingleSearchQuery (url, "SearchByUnion");
+			} else {
+				string url = "http://speedychef.azurewebsites.net/search/search?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc;
+				this.ProcessSingleSearchQuery (url, "Search");
+			}
 		}
 
 		public void OnItemClick (object sender, int position)
@@ -179,18 +155,8 @@ namespace SpeedyChef
 
 		public bool OnQueryTextChange(string input)
 		{
-			if (CachedData.Instance.PreviousActivity.GetType() == typeof(SubtypeBrowseActivity)) {
-				string selectionInput = CachedData.Instance.SelectedSubgenre.Replace(' ',',');
-				this.mostRecentKeywords = input.Replace (" ", ",");
-				string url = "http://speedychef.azurewebsites.net/search/searchbyunion?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc + "&subgenre=" + selectionInput;
-				this.ProcessSingleSearchQuery (url, "SearchByUnion");
-				return true;
-			} else {
-				this.mostRecentKeywords = input.Replace (" ", ",");
-				string url = "http://speedychef.azurewebsites.net/search/search?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc;
-				this.ProcessSingleSearchQuery (url, "Search");
-				return true;
-			}
+			showFiltered (input);
+			return true;
 		}
 
 		public void ProcessSingleSearchQuery(string inURL, string inMethod){
@@ -222,18 +188,8 @@ namespace SpeedyChef
 
 		public bool OnQueryTextSubmit(string input)
 		{
-			if (CachedData.Instance.PreviousActivity.GetType() == (typeof(SubtypeBrowseActivity))) {
-				string selectionInput = CachedData.Instance.SelectedSubgenre.Replace(' ', ',');
-				this.mostRecentKeywords = input.Replace (" ", ",");
-				string url = "http://speedychef.azurewebsites.net/search/searchbyunion?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc + "&subgenre=" + selectionInput;
-				this.ProcessSingleSearchQuery (url, "SearchByUnion");
-				return true;
-			}  else {
-				this.mostRecentKeywords = input.Replace (" ", ",");
-				string url = "http://speedychef.azurewebsites.net/search/search?inputKeywords=" + this.mostRecentKeywords + "&ordertype=" + this.ordertype + "&ascending=" + this.asc;
-				this.ProcessSingleSearchQuery (url, "Search");
-				return true;
-			}
+			showFiltered (input);
+			return true;
 		}
 
 		public bool OnSuggestionSelect (int position)
@@ -245,7 +201,7 @@ namespace SpeedyChef
 		{
 			return false;
 		}
-		
+
 	}
 
 	public class RecipeViewHolder : v7Widget.RecyclerView.ViewHolder
@@ -285,7 +241,7 @@ namespace SpeedyChef
 			RecipeViewHolder vh = new RecipeViewHolder (itemView, this.callingActivity, OnClick);
 			return vh;
 		}
-			
+
 		public void OnClick (int position)
 		{
 			if (this.itemClick != null) 
@@ -306,23 +262,18 @@ namespace SpeedyChef
 			string tempLeftText = tupleInQuestion.Item1;
 			string tempRightText = tupleInQuestion.Item2;
 			this.Recid = tupleInQuestion.Item5;
-			if (tupleInQuestion.Item3 == 5) {
-				vh.LeftText.SetBackgroundColor (Android.Graphics.Color.Red);
-				vh.RightText.SetBackgroundColor (Android.Graphics.Color.Red);
-			} else if (tupleInQuestion.Item3 == 4) {
-				vh.LeftText.SetBackgroundColor (Android.Graphics.Color.Orange);
-				vh.RightText.SetBackgroundColor (Android.Graphics.Color.Orange);
-			} else if (tupleInQuestion.Item3 == 3) {
-				vh.LeftText.SetBackgroundColor (Android.Graphics.Color.Yellow);
-				vh.RightText.SetBackgroundColor (Android.Graphics.Color.Yellow);
-			}
-			  else if (tupleInQuestion.Item3 == 2) {
-				vh.LeftText.SetBackgroundColor (Android.Graphics.Color.GreenYellow);
-				vh.RightText.SetBackgroundColor (Android.Graphics.Color.GreenYellow);
-			} else if (tupleInQuestion.Item3 == 1) {
-				vh.LeftText.SetBackgroundColor (Android.Graphics.Color.Green);
-				vh.RightText.SetBackgroundColor (Android.Graphics.Color.Green);
-			}
+
+			Dictionary<int, Android.Graphics.Color> intToColor = new Dictionary<int, Android.Graphics.Color> () {
+				{ 5, Android.Graphics.Color.Red },
+				{ 4, Android.Graphics.Color.Orange },
+				{ 3, Android.Graphics.Color.Yellow },
+				{ 2, Android.Graphics.Color.GreenYellow },
+				{ 1, Android.Graphics.Color.Green }
+			};
+
+			vh.LeftText.SetBackgroundColor (intToColor[tupleInQuestion.Item3]);
+			vh.RightText.SetBackgroundColor (intToColor[tupleInQuestion.Item3]);
+
 			vh.LeftText.Text = tempLeftText;
 			vh.RightText.Text = tempRightText;
 		}
@@ -355,7 +306,7 @@ namespace SpeedyChef
 		{
 			return this.RecipeList [position];
 		}
-			
+
 		public void Add(Tuple<string, string, int, int, int> newTuple){
 			this.RecipeList.Add (newTuple);
 			this.NumElements = this.RecipeList.Count;
