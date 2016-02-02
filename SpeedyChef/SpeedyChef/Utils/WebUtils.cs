@@ -71,6 +71,10 @@ namespace SpeedyChef
 			return JsonValue.Load (response.GetResponseStream ());
 		}
 
+		public static async JsonValue getJSONResponseAsync(string requestUrl) {
+			return getJSONResponse (requestUrl);
+		}
+
 	}
 }
 
