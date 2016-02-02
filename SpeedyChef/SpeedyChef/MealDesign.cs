@@ -139,10 +139,11 @@ namespace SpeedyChef
 				string user = "tester";
 				//System.Diagnostics.Debug.WriteLine (date + " " + mealSize );
 
-				string url = "http://speedychef.azurewebsites.net/" +
+				/*string url = "http://speedychef.azurewebsites.net/" +
 				             "CalendarScreen/AddMeal?user=" + user + "&mealname=" +
-				             mealName + "&date=" + date + "&size=" + mealSize;
-				JsonValue json = await FetchMealData (url);
+				             mealName + "&date=" + date + "&size=" + mealSize;*/
+				//JsonValue json = await FetchMealData (url);
+				JsonValue json = await WebUtils.addMeal(user, mealName, date, mealSize);
 				//System.Diagnostics.Debug.WriteLine (json[0].ToString ());
 				mealid = json [0] ["Mealid"];
 				//System.Diagnostics.Debug.WriteLine ("New  mealid = "+ mealid);

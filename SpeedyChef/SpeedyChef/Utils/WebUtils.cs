@@ -10,6 +10,23 @@ namespace SpeedyChef
 		//The base url for all requests. This may be subject to change
 		private static string baseURI = "http://speedychef.azurewebsites.net";
 
+		public static JsonValue getJSONResponse(string requestUrl) {
+			var request = HttpWebRequest.Create (baseURI + requestUrl);
+			request.ContentType = "application/json";
+			request.Method = "GET";
+
+			var response = request.GetResponse ();
+			return JsonValue.Load (response.GetResponseStream ());
+		}
+
+		public static async JsonValue getJSONResponseAsync(string requestUrl) {
+			return getJSONResponse (requestUrl);
+		}
+
+		public static void sendRequest(string requestURL) {
+
+		}
+
 		public static RecipeStep[] getRecipeSteps(int mealId) {
 			JsonValue returnedSteps = getJSONResponse ("/Steps?mealid=" + mealId);
 			RecipeStep[] steps = new RecipeStep[returnedSteps.Count];
@@ -62,19 +79,10 @@ namespace SpeedyChef
 			return r;
 		}
 
-		public static JsonValue getJSONResponse(string requestUrl) {
-			var request = HttpWebRequest.Create (baseURI + requestUrl);
-			request.ContentType = "application/json";
-			request.Method = "GET";
-
-			var response = request.GetResponse ();
-			return JsonValue.Load (response.GetResponseStream ());
+		public static JsonValue addMeal(String userId, String mealName, String date, int mealSize) {
+			return getJSONResponse("CalendarScreen/AddMeal?user=" + userId + "&mealname=" +
+				mealName + "&date=" + date + "&size=" + mealSize);
 		}
-
-		public static async JsonValue getJSONResponseAsync(string requestUrl) {
-			return getJSONResponse (requestUrl);
-		}
-
 	}
 }
 
