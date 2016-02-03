@@ -67,6 +67,10 @@ namespace SpeedyChef
 				taskView.AddView (tv);
 			}
 			Button addToMealButton = FindViewById<Button> (Resource.Id.add_rec_to_meal_button);
+			addToMealButton.Visibility = ViewStates.Invisible;
+			if (CachedData.Instance.FromMealDesign) {
+				addToMealButton.Visibility = ViewStates.Visible;
+			}	
 			addToMealButton.Click += (object sender, EventArgs e) => {
 				CachedData.Instance.mostRecentMealAdd = CachedData.Instance.mostRecentRecSel;
 				if (CachedData.Instance.PreviousActivity.GetType() == typeof(SearchActivity)) {
@@ -74,6 +78,7 @@ namespace SpeedyChef
 					CachedData.Instance.PreviousActivity.SetResult(Result.Ok);
 					SetResult(Result.Ok, CachedData.Instance.PreviousActivity.Intent);
 					Finish();
+					CachedData.Instance.FromMealDesign = false;
 				}
 			};
 		}

@@ -124,6 +124,7 @@ namespace SpeedyChef
 		public System.Type CurrHighLevelType { get; set; }
 		public string LastSubmissionFromMain { get; set; }
 		public bool SubmissionFromMain { get; set; }
+		public bool FromMealDesign { get; set; }
 
 		private CachedData()
 		{
@@ -200,6 +201,7 @@ namespace SpeedyChef
 
 			SelectedNationality = "American";
 			this.PreviousActivity = new MainActivity ();
+			this.FromMealDesign = false;
 		}
 
 		private static volatile CachedData _instance;

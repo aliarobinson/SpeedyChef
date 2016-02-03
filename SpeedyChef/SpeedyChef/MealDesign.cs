@@ -97,6 +97,7 @@ namespace SpeedyChef
 			};
 			Button searchButton = FindViewById<Button> (Resource.Id.searchButton);
 			searchButton.Click += (object sender, EventArgs e) => {
+				CachedData.Instance.FromMealDesign = true;
 				// PRINTS
 				// System.Diagnostics.Debug.WriteLine ("SEARCHING PAGE");
 				Intent i = new Intent (this, typeof(SearchActivity));
