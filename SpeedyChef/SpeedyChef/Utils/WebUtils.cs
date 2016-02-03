@@ -2,6 +2,7 @@
 using System.Net;
 using System.IO;
 using System.Json;
+using System.Threading.Tasks;
 
 namespace SpeedyChef
 {
@@ -19,8 +20,10 @@ namespace SpeedyChef
 			return JsonValue.Load (response.GetResponseStream ());
 		}
 
-		public static async JsonValue getJSONResponseAsync(string requestUrl) {
-			return getJSONResponse (requestUrl);
+		public static Task<JsonValue> getJSONResponseAsync(string requestUrl) {
+			Task<JsonValue> jsonDoc = Task.Run (() => getJSONResponse(requestUrl));
+			return jsonDoc;
+				
 		}
 
 		public static void sendRequest(string requestURL) {
@@ -79,8 +82,8 @@ namespace SpeedyChef
 			return r;
 		}
 
-		public static JsonValue addMeal(String userId, String mealName, String date, int mealSize) {
-			return getJSONResponse("CalendarScreen/AddMeal?user=" + userId + "&mealname=" +
+		public static Task<JsonValue> addMeal(String userId, String mealName, String date, int mealSize) {
+			return getJSONResponseAsync("CalendarScreen/AddMeal?user=" + userId + "&mealname=" +
 				mealName + "&date=" + date + "&size=" + mealSize);
 		}
 	}
