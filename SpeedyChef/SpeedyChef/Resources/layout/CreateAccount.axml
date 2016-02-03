@@ -42,6 +42,7 @@
         android:id="@+id/editText5"
         android:text="ConfirmPassword" />
     <Button
+        style="@style/generalButtonStyle"
         android:text="Create an Account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

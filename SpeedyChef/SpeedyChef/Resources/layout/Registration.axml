@@ -27,11 +27,14 @@
         android:id="@+id/editText2"
         android:text="Password" />
     <Button
+        style="@style/generalButtonStyle"
         android:text="Login"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:id="@+id/button1" />
     <Button
+        style="@style/generalButtonStyle"
+        android:layout_marginTop="10dp"
         android:text="Create an Account"
         android:layout_width="match_parent"
         android:layout_height="80dp"
