@@ -20,14 +20,30 @@ namespace SpeedyChef
 			return JsonValue.Load (response.GetResponseStream ());
 		}
 
-		public static Task<JsonValue> getJSONResponseAsync(string requestUrl) {
-			Task<JsonValue> jsonDoc = Task.Run (() => getJSONResponse(requestUrl));
-			return jsonDoc;
-				
+		public static Task<JsonValue> getJSONResponseAsync (string requestUrl)
+		{
+			// Create an HTTP web request using the URL:
+			var request = HttpWebRequest.Create (baseURI + requestUrl);
+			request.ContentType = "application/json";
+			request.Method = "GET";
+			// Send the request to the server and wait for the response:
+			using (WebResponse response =  request.GetResponse()) {
+				// Get a stream representation of the HTTP web response:
+				using (Stream stream = response.GetResponseStream ()) {
+					// Use this stream to build a JSON document object:
+					Task<JsonValue> jsonDoc =  Task.Run (() => JsonObject.Load (stream));
+					// Return the JSON document:
+					return jsonDoc;
+				}
+			}
 		}
 
-		public static void sendRequest(string requestURL) {
-
+		public static void sendRequest (string requestUrl) {
+			var request = HttpWebRequest.Create (baseURI + requestUrl);
+			request.ContentType = "application/json";
+			request.Method = "GET";
+			request.GetResponse ();
+			request = null;
 		}
 
 		public static RecipeStep[] getRecipeSteps(int mealId) {
@@ -86,6 +102,7 @@ namespace SpeedyChef
 			return getJSONResponseAsync("CalendarScreen/AddMeal?user=" + userId + "&mealname=" +
 				mealName + "&date=" + date + "&size=" + mealSize);
 		}
+			
 	}
 }
 

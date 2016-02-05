@@ -115,9 +115,9 @@ namespace SpeedyChef
 					// Change to meal id
 					string user = "tester";
 					string url = 
-						"http://speedychef.azurewebsites.net/CalendarScreen/RemoveMealFromTables?user="
+						"/CalendarScreen/RemoveMealFromTables?user="
 						+ user + "&mealid=" + mealId;
-					GetMealRemoved (url);
+					WebUtils.sendRequest (url);
 				}
 				i.PutExtra ("MealRemoved", mealId);
 				SetResult (Result.Ok, i);
@@ -135,26 +135,16 @@ namespace SpeedyChef
 
 		private async void HandleAPICalls (string mealName, int mealid, int[] recIds, string date, int mealSize)
 		{
-			// System.Diagnostics.Debug.WriteLine ("MealId = " + mealid);
 			if (mealid == -1) {
 				string user = "tester";
-				//System.Diagnostics.Debug.WriteLine (date + " " + mealSize );
 
-				string url = "http://speedychef.azurewebsites.net/" +
-				             "CalendarScreen/AddMeal?user=" + user + "&mealname=" +
-				             mealName + "&date=" + date + "&size=" + mealSize;
-				JsonValue json = await FetchMealData (url);
-				//JsonValue json = await WebUtils.addMeal(user, mealName, date, mealSize);
-				//System.Diagnostics.Debug.WriteLine (json[0].ToString ());
+				string url = "/CalendarScreen/AddMeal?user=" + user + "&mealname=" + mealName + "&date=" + date + "&size=" + mealSize;
+				JsonValue json = await WebUtils.getJSONResponseAsync (url);
 				mealid = json [0] ["Mealid"];
-				//System.Diagnostics.Debug.WriteLine ("New  mealid = "+ mealid);
 			}
 			for (int i = 0; i < recIds.Length; i++) {
-				//System.Diagnostics.Debug.WriteLine (mealid);
-				//System.Diagnostics.Debug.WriteLine (recIds[i]);
-				string url = "http://speedychef.azurewebsites.net/" +
-				             "CalendarScreen/InsertRecForMeal?mealId=" + mealid + "&recId=" + recIds [i];
-				GetMealRemoved (url);// Name doesn't match, but oh well
+				string url = "/CalendarScreen/InsertRecForMeal?mealId=" + mealid + "&recId=" + recIds [i];
+				WebUtils.sendRequest (url);// Name doesn't match, but oh well
 			}
 		}
 
@@ -194,9 +184,8 @@ namespace SpeedyChef
 		private async void NewRecipeAdded (int recid)
 		{
 			LinearLayout mealsArea = FindViewById<LinearLayout> (Resource.Id.mealsArea);
-			string url = "http://speedychef.azurewebsites.net/" +
-			             "CalendarScreen/GetRecipe?recid=" + recid;
-			JsonValue json = await FetchMealData (url);
+			string url = "/CalendarScreen/GetRecipe?recid=" + recid;
+			JsonValue json = await WebUtils.getJSONResponseAsync (url);
 			// System.Diagnostics.Debug.WriteLine (json.ToString ());
 			ParseRecipes (mealsArea, this.mealId, json);
 		}
@@ -221,7 +210,7 @@ namespace SpeedyChef
 		/// Gets the meal removed.
 		/// </summary>
 		/// <param name="url">URL.</param>
-		private void GetMealRemoved (string url)
+		/*private void GetMealRemoved (string url)
 		{
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (new Uri (url));
 			request.ContentType = "";
@@ -231,7 +220,7 @@ namespace SpeedyChef
 			using (WebResponse response = request.GetResponse()) {
 			}
 
-		}
+		}*/
 
 
 		/// <summary>
@@ -244,9 +233,8 @@ namespace SpeedyChef
 			mealArea.RemoveAllViews ();
 			string user = "tester";
 
-			string url = "http://speedychef.azurewebsites.net/" +
-			             "CalendarScreen/GetRecipesForMeal?user=" + user + "&mealId=" + mealId;
-			JsonValue json = await FetchMealData (url);
+			string url = "/CalendarScreen/GetRecipesForMeal?user=" + user + "&mealId=" + mealId;
+			JsonValue json = await WebUtils.getJSONResponseAsync (url);
 			ParseRecipes (mealArea, mealId, json);
 		}
 
@@ -284,7 +272,7 @@ namespace SpeedyChef
 		/// </summary>
 		/// <returns>The meal data (Json).</returns>
 		/// <param name="url">URL to call the API.</param>
-		private Task<JsonValue> FetchMealData (string url)
+		/*private Task<JsonValue> FetchMealData (string url)
 		{
 			// Create an HTTP web request using the URL:
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (new Uri (url));
@@ -304,7 +292,7 @@ namespace SpeedyChef
 				}
 			}
 
-		}
+		}*/
 	}
 
 
