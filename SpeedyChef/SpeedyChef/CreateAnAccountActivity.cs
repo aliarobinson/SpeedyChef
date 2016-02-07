@@ -39,38 +39,68 @@ namespace SpeedyChef
 			var username = FindViewById<EditText> (Resource.Id.editText3);
 			var password = FindViewById<EditText> (Resource.Id.editText4);
 			var confirmPassword = FindViewById<EditText> (Resource.Id.editText5);
+
+			String fName = null;
+			String eAddress = null;
+			String uname = null;
+			String pword = null;
+			String cword = null;
+
+			fullName.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+				fName = e.Text.ToString ();
+			};
+			emailAddress.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+				eAddress = e.Text.ToString ();
+			};
+			username.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+				uname = e.Text.ToString ();
+			};
+			password.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+				pword = e.Text.ToString ();
+			};
+			confirmPassword.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+				cword = e.Text.ToString ();
+			};
 			
 			createAccountButton = FindViewById<Button> (Resource.Id.createAccountButton);
 
 			this.createAccountButton.Click += (s, arg) => {
-				if (fullNames.Contains (fullName)) {
+				if (fullNames.Contains (fName)) {
 					new AlertDialog.Builder (this)
 						.SetMessage ("A user with the same name already has an account")
 						.Show ();
 				}
-				else if (emailAddresses.Contains (emailAddress)) {
+				else if (emailAddresses.Contains (eAddress)) {
 					new AlertDialog.Builder (this)
 						.SetMessage ("That email already has an account with it")
 						.Show ();
 				}
-				else if (usernames.Contains(username)) {
+				else if (usernames.Contains(uname)) {
 					new AlertDialog.Builder (this)
 						.SetMessage ("That username already exists")
 						.Show ();
 				}
-				else if (password.ToString().Equals(confirmPassword.ToString())) {
+				else if (!pword.Equals(cword)) {
 					new AlertDialog.Builder (this)
-						.SetMessage ("The passwords match")
+						.SetMessage ("The passwords do not match")
 						.Show ();
 				} else {
-					fullNames.Add (fullName);
-					emailAddresses.Add (emailAddress);
-					usernames.Add (username);
-					passwords.Add (password);
+					fullNames.Add (fName);
+					emailAddresses.Add (eAddress);
+					usernames.Add (uname);
+					passwords.Add (pword);
+
+			
 	
 					new AlertDialog.Builder (this)
 					.SetMessage ("Your account has been created")
 					.Show ();
+
+					Intent myIntent = new Intent (this, typeof(RegistrationActivity));
+					myIntent.PutExtra ("username", uname);
+					myIntent.PutExtra("password", pword);
+					SetResult (Result.Ok, myIntent);
+					Finish();
 				}
 			};
 

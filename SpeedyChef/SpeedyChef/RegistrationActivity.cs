@@ -30,28 +30,54 @@ namespace SpeedyChef
 		ArrayList usernames = new ArrayList();
 		ArrayList passwords = new ArrayList(); 
 
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			base.OnActivityResult (requestCode, resultCode, data);
+			if (resultCode == Result.Ok) {
+				//helloLabel.Text = data.GetStringExtra ("greeting");
+				String curUser = data.GetStringExtra ("username");
+				String curPass = data.GetStringExtra ("password");
+
+				this.usernames.Add (curUser);
+				this.passwords.Add (curPass);
+			}
+		}
+
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
 			SetContentView(Resource.Layout.Registration);
 
-			// Create your application here
-			// Text Input Boxes
 			var editTextUsername = FindViewById<EditText> (Resource.Id.editText1);
 			var textViewUsername = FindViewById<EditText> (Resource.Id.editText2);
 
-			String enteredUsername = editTextUsername.ToString ();
-			String enteredPassword = textViewUsername.ToString ();
+			String enteredUsername = null;
+			String enteredPassword = null;
+
+			editTextUsername.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+				enteredUsername = e.Text.ToString ();
+			};
+
+			textViewUsername.TextChanged += (object sender, Android.Text.TextChangedEventArgs e) => {
+				enteredPassword = e.Text.ToString ();
+			};
 
 			this.login_button = FindViewById<Button> (Resource.Id.button1);
 			this.createAccount_button = FindViewById<Button> (Resource.Id.button2); 
 
 			this.login_button.Click += (s, arg) => {
 				// Do nothing
+				Console.WriteLine ("Count User: {0}", usernames.Count);
+				Console.WriteLine ("Count User: {0}", passwords.Count);
+				Console.WriteLine ("entered username {0}", enteredUsername);
+				Console.WriteLine ("entered password {0}", enteredPassword);
+				Console.WriteLine(usernames.IndexOf(enteredUsername));
+				Console.WriteLine(passwords.IndexOf(enteredPassword));
+
 				if (usernames.Contains(enteredUsername)) {
 					// return an invalid username
-					this.username = null;
-					this.password = null;
+					//this.username = null;
+					//this.password = null;
 					int indexOfUsername = usernames.IndexOf(enteredUsername);
 					if(indexOfUsername == passwords.IndexOf(enteredPassword)) {
 						// valid login
@@ -72,27 +98,18 @@ namespace SpeedyChef
 				var intent = new Intent (this, typeof(CreateanAccountActivity));
 				CachedData.Instance.CurrHighLevelType = typeof(CreateanAccountActivity);
 				CachedData.Instance.PreviousActivity = this;
-				StartActivity (intent);
+				//StartActivity (intent);
+
+				Console.WriteLine ("Count User create: {0}", usernames.Count);
+				Console.WriteLine ("Count pass create : {0}", passwords.Count);
+
+
+				//var myIntent = new Intent (this, typeof(SecondActivity));
+				StartActivityForResult (intent, 0);
 			};
 
 			Button menu_button = FindViewById<Button> (Resource.Id.menu_button);
 			MenuButtonSetupSuperClass (menu_button);
-			//MenuButtonSetup(menu_button);
-
-//			menu_button.Click += (s, arg) => {
-//				menu_button.SetBackgroundResource(Resource.Drawable.pressed_lines);
-//				PopupMenu menu = new PopupMenu (this, menu_button);
-//				menu.Inflate (Resource.Menu.Main_Menu);
-//				menu.MenuItemClick += this.MenuButtonClick;
-//				menu.DismissEvent += (s2, arg2) => {
-//					menu_button.SetBackgroundResource(Resource.Drawable.menu_lines);
-//					Console.WriteLine ("menu dismissed");
-//				};
-//				menu.Show ();
-//			};
-
-			//filter_button.Click += (s, arg) => {
-
 		}
 	}
 }
