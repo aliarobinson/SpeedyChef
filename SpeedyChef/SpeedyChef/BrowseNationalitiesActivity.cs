@@ -93,13 +93,21 @@ namespace SpeedyChef
 
 		public void responseToClick(Type t) {
 			LeftImage.Click += (sender, e) => {
-				CachedData.Instance.SelectedNationality = LeftText.Text;
+				if(CachedData.Instance.CurrHighLevelType == typeof(SubtypeBrowseActivity)){
+					CachedData.Instance.SelectedSubgenre = LeftText.Text;
+				} else {
+					CachedData.Instance.SelectedNationality = LeftText.Text;
+				}
 				var intent = new Intent(callingActivity, t);
 				CachedData.Instance.PreviousActivity = this.callingActivity;
 				callingActivity.StartActivity(intent);
 			};
 			RightImage.Click += (sender, e) => {
-				CachedData.Instance.SelectedNationality = RightText.Text;
+				if(CachedData.Instance.CurrHighLevelType == typeof(SubtypeBrowseActivity)){
+					CachedData.Instance.SelectedSubgenre = RightText.Text;
+				} else {
+					CachedData.Instance.SelectedNationality = RightText.Text;
+				}
 				var intent = new Intent(callingActivity, t);
 				CachedData.Instance.PreviousActivity = this.callingActivity;
 				callingActivity.StartActivity(intent);

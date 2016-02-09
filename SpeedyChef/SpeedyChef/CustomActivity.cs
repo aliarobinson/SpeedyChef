@@ -121,6 +121,7 @@ namespace SpeedyChef
 		public int mostRecentMealAdd { get; set; }
 		public CustomActivity PreviousActivity { get; set; }
 		public int MealDesignMealId { get; set; }
+		public int MealDesignMealSize { get; set; }
 		public System.Type CurrHighLevelType { get; set; }
 		public string LastSubmissionFromMain { get; set; }
 		public bool SubmissionFromMain { get; set; }

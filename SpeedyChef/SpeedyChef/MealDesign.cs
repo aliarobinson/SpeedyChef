@@ -71,6 +71,7 @@ namespace SpeedyChef
 			sbt.Text = sb.Progress.ToString ();
 			sb.ProgressChanged += (sender, e) => {
 				if (e.FromUser) {
+					mealSize = sb.Progress;
 					sbt.Text = e.Progress.ToString ();
 				}
 			};
@@ -102,6 +103,7 @@ namespace SpeedyChef
 				// System.Diagnostics.Debug.WriteLine ("SEARCHING PAGE");
 				Intent i = new Intent (this, typeof(SearchActivity));
 				CachedData.Instance.MealDesignMealId = mealId;
+				CachedData.Instance.MealDesignMealSize = mealSize;
 				StartActivityForResult (i, -1);
 				// TODO
 

@@ -46,7 +46,7 @@ namespace SpeedyChef
 			ViewGroup ingredientView = (ViewGroup) FindViewById (Resource.Id.recipe_view_ingredients);
 
 			for (int i = 0; i < recipe.ingredients.Length; i++) {
-				Console.WriteLine ("Adding Ingredient " + recipe.ingredients [i]);
+				Console.WriteLine ("Adding Ingredient " + recipe.ingredients [i] +"x"+CachedData.Instance.MealDesignMealSize);
 				TextView tv = new TextView (this);
 				//tv.Visibility = ViewStates.Visible;
 				//tv.TextSize = 20;
