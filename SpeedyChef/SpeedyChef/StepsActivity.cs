@@ -53,7 +53,8 @@ namespace SpeedyChef
 			//TODO fix
 			steps = WebUtils.getRecipeSteps (mealId);
 			fragmentCount = steps.Length + 1;
-
+			Console.WriteLine (mealId);
+			Console.WriteLine (steps.ToString());
 			vp.Adapter = new StepFragmentPagerAdapter (SupportFragmentManager, steps, timerPoolHandler);
 
 			//Set up the progress dots to appear at the bottom of the screen

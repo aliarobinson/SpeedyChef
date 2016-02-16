@@ -52,7 +52,11 @@ namespace SpeedyChef
 				//tv.TextSize = 20;
 				tv.SetTextColor (Resources.GetColor(Resource.Color.gray_icon));
 				tv.TextSize = 14;
-				tv.Text = recipe.ingredients [i];
+				if (CachedData.Instance.MealDesignMealSize == 0) {
+					tv.Text = recipe.ingredients [i];
+				} else {
+					tv.Text = recipe.ingredients [i] + " x " + CachedData.Instance.MealDesignMealSize;
+				}
 				ingredientView.AddView (tv);
 			}
 
