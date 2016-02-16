@@ -135,6 +135,16 @@ namespace SpeedyChef
 				var intent = new Intent(this, typeof(Expertise));
 				StartActivity(intent);
 			};
+			Switch unit_switch = FindViewById<Switch> (Resource.Id.unit_switch);
+			unit_switch.Click += (s, arg) => {
+				if(unit_switch.Checked){
+					CachedData.Instance.unitSystem = "Metrics";
+					Console.WriteLine("U.S.");
+				} else {
+					CachedData.Instance.unitSystem = "U.S.";
+					Console.WriteLine("Metrics");
+				}
+			};
             //MENU VIEW
             Button menu_button = FindViewById<Button>(Resource.Id.menu_button);
             menu_button.Click += (s, arg) => {

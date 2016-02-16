@@ -126,6 +126,7 @@ namespace SpeedyChef
 		public string LastSubmissionFromMain { get; set; }
 		public bool SubmissionFromMain { get; set; }
 		public bool FromMealDesign { get; set; }
+		public string unitSystem { get; set; }
 
 		private CachedData()
 		{
@@ -203,6 +204,7 @@ namespace SpeedyChef
 			SelectedNationality = "American";
 			this.PreviousActivity = new MainActivity ();
 			this.FromMealDesign = false;
+			this.unitSystem = "U.S.";
 		}
 
 		private static volatile CachedData _instance;

@@ -105,4 +105,17 @@
             android:layout_height="match_parent"
             android:id="@+id/textView3" />
     </LinearLayout>
+    <TextView
+        android:text="Prefered Unit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <Switch
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/unit_switch"
+        android:textOff="U.S."
+        android:textAlignment="center"
+        android:textOn="Metrics" />
 </LinearLayout>
